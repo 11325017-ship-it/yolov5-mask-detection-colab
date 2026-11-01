@@ -10,9 +10,9 @@
 
 1. 點擊 New（新增），並將滑鼠移到 More（更多），選擇 Google Colaboratory。
 
-   ![圖 0-1　Google 雲端硬碟的 New 按鈕](images/colab_1_new.png)
+   ![圖 0-1　Google 雲端硬碟的 New 按鈕](images/CreateColabFile1.png)
 
-   ![圖 0-2　More → Google Colaboratory](images/colab_2_colaboratory.png)
+   ![圖 0-2　More → Google Colaboratory](images/CreateColabFIle2.png)
 
    > 如果選單中沒有 Google Colaboratory，請到 Google Workspace Marketplace 搜尋 Google Colaboratory 並安裝。
 
@@ -36,15 +36,15 @@
 
 1. 登入 Roboflow（免費註冊），並點選YOLOv5如圖中的紅框。
 
-![圖 1　開啟資料集頁面](images/dataset_1_open_page.png)
+![圖 1　開啟資料集頁面](images/DownloadDataset1.png)
 
 2. 點選頁面上的「Download Dataset」（下載資料集）。
 
-![圖 2　點選 Download Dataset](images/dataset_2_download.png)
+![圖 2　點選 Download Dataset](images/DownloadDataset2.png)
 
 3. 格式選 **YOLOv5 PyTorch**，並選擇「Download zip to computer」（下載 zip 到電腦），下載後會得到一個 zip 檔。
 
-![圖 3　選擇 YOLOv5 格式](images/dataset_3_format.png)
+![圖 3　選擇 YOLOv5 格式](images/DownloadDataset3.png)
 
 4. 讓 Colab 取得這個 zip，二選一：
 
@@ -62,13 +62,15 @@ yolov5-mask-detection-colab/
 ├── yolov5_mask_training.ipynb   # 程式碼，保留實際執行的輸出
 ├── .gitignore
 └── images/
-    ├── colab_1_new.png, colab_2_colaboratory.png          # 開啟 Colab 的截圖
-    ├── dataset_1_open_page.png ～ dataset_3_format.png    # 資料集下載步驟截圖
-    ├── step1_gpu.png            # GPU 確認
-    ├── step8_detect_grid.png    # 偵測結果截圖
-    ├── step9_custom_detect.png  # 偵測自己上傳圖片的結果
-    ├── results.png              # 訓練曲線
-    └── confusion_matrix.png     # 混淆矩陣
+    ├── CreateColabFile1.png, CreateColabFIle2.png          # 開啟 Colab 的截圖
+    ├── DownloadDataset1.png ～ DownloadDataset3.png        # 資料集下載步驟截圖
+    ├── IntroduceGPU.png                                    # GPU 確認
+    ├── MountGoogleDrive.png, PathSetting.png               # 掛載雲端硬碟、路徑設定
+    ├── PredictPictures.png                                 # 驗證集偵測結果
+    ├── Predict1.png, Predict2.png                          # 偵測自己上傳圖片的結果
+    ├── TestImage1.jpeg, TestImage2.jpeg                    # 上傳測試用的原圖
+    ├── results.png                                         # 訓練曲線
+    └── confusion_matrix.png                                # 混淆矩陣
 ```
 
 ## 四、資料集
@@ -98,7 +100,7 @@ README 內附每個步驟的完整程式碼：可以直接開啟 notebook 由上
 
 作用：列出 Colab 分配到的顯示卡。實際輸出為 `Tesla T4`，顯存 0 / 15360 MiB，表示 GPU 可用且尚未被占用。
 
-![圖 1　nvidia-smi 輸出](images/step1_gpu.png)
+![圖 1　nvidia-smi 輸出](images/IntroduceGPU.png)
 
 ### Step 2：掛載 Google Drive 並設定路徑（儲存格 2、3）
 
@@ -109,6 +111,10 @@ from google.colab import drive
 drive.mount("/content/drive")
 ```
 
+執行成功後會顯示 `Mounted at /content/drive`：
+
+![圖 2-1　掛載雲端硬碟成功](images/MountGoogleDrive.png)
+
 作用：讓 Colab 連接你的 Google 雲端硬碟，並對應到 `/content/drive` 目錄。執行時會跳出授權視窗，按「允許」。
 
 再新增一個「程式碼儲存格」，輸入：
@@ -117,6 +123,10 @@ drive.mount("/content/drive")
 DATASET_URL = "https://github.com/11325017-ship-it/yolov5-mask-detection-colab/releases/download/v1/Face.Mask.Detection.v1i.yolov5pytorch.zip"
 SAVE_DIR = "/content/drive/MyDrive/yolov5_mask/runs"
 ```
+
+實際畫面如下：
+
+![圖 2-2　設定資料集網址與儲存路徑](images/PathSetting.png)
 
 作用：設定兩個路徑，後面的程式都會用到。
 
@@ -345,7 +355,7 @@ plt.show()
 
 作用：把偵測結果的前 6 張圖排成 2×3 的畫面顯示出來。
 
-![圖 8　偵測結果（驗證集前 6 張）](images/step8_detect_grid.png)
+![圖 8　偵測結果（驗證集前 6 張）](images/PredictPictures.png)
 
 ### Step 9：偵測自己的圖片（儲存格 18）
 
@@ -388,7 +398,11 @@ if uploaded:
 
 執行結果範例（左：上傳的原圖，右：偵測後的結果，模型框出口罩並標示 `with_mask`，信心度 0.95）：
 
-![圖 9　偵測自己上傳的圖片](images/step9_custom_detect.png)
+![圖 9-1　偵測自己上傳的圖片](images/Predict2.png)
+
+再一個例子（`with_mask`，信心度 0.94）：
+
+![圖 9-2　偵測自己上傳的圖片](images/Predict1.png)
 
 執行前的注意事項：
 
