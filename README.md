@@ -54,26 +54,7 @@
 
 > Roboflow 的按鈕名稱與位置可能隨版本調整，以實際畫面為準。重點是匯出格式要選 **YOLOv5 PyTorch**，zip 裡要有 `data.yaml`、`train/`、`valid/`。
 
-## 二、檔案說明
-
-```
-yolov5-mask-detection-colab/
-├── README.md                    # 說明與實驗結果（本檔案）
-├── yolov5_mask_training.ipynb   # 程式碼，保留實際執行的輸出
-├── .gitignore
-└── images/
-    ├── CreateColabFile1.png, CreateColabFIle2.png          # 開啟 Colab 的截圖
-    ├── DownloadDataset1.png ～ DownloadDataset3.png        # 資料集下載步驟截圖
-    ├── IntroduceGPU.png                                    # GPU 確認
-    ├── MountGoogleDrive.png, PathSetting.png               # 掛載雲端硬碟、路徑設定
-    ├── PredictPictures.png                                 # 驗證集偵測結果
-    ├── Predict1.png, Predict2.png                          # 偵測自己上傳圖片的結果
-    ├── TestImage1.jpeg, TestImage2.jpeg                    # 上傳測試用的原圖
-    ├── results.png                                         # 訓練曲線
-    └── confusion_matrix.png                                # 混淆矩陣
-```
-
-## 四、資料集
+## 二、資料集
 
 - **格式**：YOLO 格式，從 Roboflow 匯出（YOLOv5 PyTorch），內容有 `data.yaml`、`train/`、`valid/`、`test/`。  
 - **類別**：3 類，順序為 `mask_weared_incorrect`、`with_mask`、`without_mask`（取自資料集的 `data.yaml`）。  
@@ -84,7 +65,7 @@ yolov5-mask-detection-colab/
 
 資料集的下載與上傳方式見最前面的[快速開始](#快速開始資料集怎麼下載)。
 
-## 五、操作步驟
+## 三、操作步驟
 
 README 內附每個步驟的完整程式碼：可以直接開啟 notebook 由上往下執行，也可以照著下面的說明，在 Colab 逐一**新增「程式碼儲存格」**並貼上程式碼。每段程式後面的「作用」說明它在做什麼。
 
@@ -259,16 +240,6 @@ YOLOv5 依「深度與寬度」分成 n、s、m、l、x 五種大小，越大越
 | YOLOv5l | `yolov5l.pt` | 49.0 | 67.3 | 430 | 10.1 | 46.5 | 109.1 | 追求精度 |
 | YOLOv5x | `yolov5x.pt` | 50.7 | 68.9 | 766 | 12.1 | 86.7 | 205.7 | 最高精度，需要較大顯存 |
 
-**P6 大尺寸模型（輸入尺寸 1280）**，名稱結尾多一個 `6`，適合圖片中的物件很小的情況：
-
-| 模型 | `--weights` | mAP 50-95 | mAP 50 | CPU 速度 (ms) | V100 速度 (ms) | 參數量 (M) | FLOPs (B) |
-| :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| YOLOv5n6 | `yolov5n6.pt` | 36.0 | 54.4 | 153 | 8.1 | 3.2 | 4.6 |
-| YOLOv5s6 | `yolov5s6.pt` | 44.8 | 63.7 | 385 | 8.2 | 12.6 | 16.8 |
-| YOLOv5m6 | `yolov5m6.pt` | 51.3 | 69.3 | 887 | 11.1 | 35.7 | 50.0 |
-| YOLOv5l6 | `yolov5l6.pt` | 53.7 | 71.3 | 1784 | 15.8 | 76.8 | 111.4 |
-| YOLOv5x6 | `yolov5x6.pt` | 55.0 | 72.7 | 3136 | 26.2 | 140.7 | 209.8 |
-
 > 以上數據引用自 YOLOv5 官方 README，是在 COCO 資料集（80 類）上測得的，**不代表**在本專案口罩資料集上的表現。mAP 越高越準；速度與參數量越小越快、越省資源。
 
 換模型時要注意：
@@ -418,7 +389,7 @@ if uploaded:
 - 出現找不到 `best.pt`：確認 Step 6 的訓練結果存在雲端硬碟，且雲端硬碟已經掛載（Step 2）。
 - 上傳的檔案不是圖片或格式不支援：請改用 `.jpg` 或 `.png`。
 
-## 六、實驗結果
+## 四、實驗結果
 
 ### 整體與各類別表現
 
@@ -475,7 +446,7 @@ if uploaded:
 
 偵測用的 `valid/images` 同時是挑選 `best.pt` 的依據，所以結果略微偏樂觀。資料集另有 `test/` 資料夾，要得到更公正的評估，可以把 `--source` 改成 `test/images`，或用 `val.py --task test` 評估。
 
-## 七、執行時遇到的狀況
+## 五、執行時遇到的狀況
 
 | 現象 | 說明 |
 | :---- | :---- |
@@ -488,7 +459,7 @@ if uploaded:
 | `CUDA out of memory` | 把 `--batch-size` 改成 8 或 4 |
 | Colab 斷線 | 訓練結果存在雲端硬碟，不會遺失，可直接用 `best.pt` 偵測 |
 
-## 八、結論與改進方向
+## 六、結論與改進方向
 
 本專題用 Colab 的 T4 GPU，以 `yolov5s.pt` 微調 50 輪（約 32 分鐘），在驗證集上得到 **mAP@0.5 \= 0.812**、Precision \= 0.836、Recall \= 0.752。整個流程都是呼叫 YOLOv5 現成的 `train.py` 與 `detect.py`，不需要自己寫模型。
 
