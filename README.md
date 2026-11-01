@@ -6,7 +6,7 @@
 
 > 程式碼在 `yolov5_mask_training.ipynb`，說明與實驗結果在這份 `README.md`。本文的數據都來自 notebook 保留的實際執行輸出。
 
-## 快速開始：Colab設定
+## 快速開始：Colab創建
 
 1. 點擊 New（新增），並將滑鼠移到 More（更多），選擇 Google Colaboratory。
 
