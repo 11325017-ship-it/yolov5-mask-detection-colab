@@ -42,29 +42,23 @@ notebook 已經把「下載資料集、安裝 YOLOv5、訓練、偵測」全部�
 
 ### 方式二：自己下載資料集，上傳到 Google Drive
 
-1. 登入 Roboflow（免費註冊），開啟上面的資料集頁面。![圖 1　開啟資料集頁面](images/dataset_1_open_page.png)
-
+1. 登入 Roboflow（免費註冊），開啟上面的資料集頁面。
 &nbsp;
 
-2. 點選下方YOLOv5的選項
+3. 點選下方YOLOv5的選項
 
 ![][image1]
 
 3. 點選頁面上的「Download Dataset」（下載資料集）。
 
-![][image2]![圖 2　點選 Download Dataset](images/dataset_2_download.png)
 
 4. 格式選 **YOLOv5 PyTorch**，並選擇「Download zip to computer」（下載 zip 到電腦），下載後會得到一個 zip 檔。
 
-![圖 3　選擇 YOLOv5 格式](images/dataset_3_format.png)![][image3]
 
 5. 把 zip 檔上傳到自己的 Google 雲端硬碟，對檔案按右鍵 →「共用」→ 一般存取權改成「**知道連結的任何人**」。
 
-   ![圖 4　設定共用權限](images/dataset_4_drive_share.png)
 
 6. 複製分享連結，取出檔案 ID。連結格式是 `https://drive.google.com/file/d/這一段就是ID/view`，把這段 ID 貼到 notebook 的 `FILE_ID`。
-
-   ![圖 5　從連結取得檔案 ID](images/dataset_5_file_id.png)
 
 ```py
 FILE_ID = "貼上你的檔案ID"
